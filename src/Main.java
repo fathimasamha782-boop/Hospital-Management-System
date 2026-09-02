@@ -21,7 +21,7 @@ public class Main {
         do {
             printMenu();
             choice = scanner.nextInt();
-            scanner.nextLine(); // consume leftover newline
+            scanner.nextLine();
 
             switch (choice) {
                 case 1: registerPatient(); break;
@@ -34,6 +34,8 @@ public class Main {
                 case 8: viewTreatmentHistory(); break;
                 case 9: addVisit(); break;
                 case 10: viewVisitHistory(); break;
+                case 11: searchVisitInHistory(); break;
+                case 12: removeVisitFromHistory(); break;
                 case 0: System.out.println("Exiting system. Goodbye!"); break;
                 default: System.out.println("Invalid choice. Try again.");
             }
@@ -55,6 +57,8 @@ public class Main {
         System.out.println("8. View treatment history");
         System.out.println("9. Add visit to patient history");
         System.out.println("10. View patient visit history");
+        System.out.println("11. Search visit in patient history");
+        System.out.println("12. Remove visit from patient history");
         System.out.println("0. Exit");
         System.out.print("Enter your choice: ");
     }
@@ -167,5 +171,42 @@ public class Main {
         } else {
             visitList.displayVisits();
         }
+    }
+
+    static void searchVisitInHistory() {
+        System.out.print("Enter Patient ID: ");
+        int id = scanner.nextInt();
+
+        VisitLinkedList visitList = visitHistoryMap.get(id);
+        if (visitList == null) {
+            System.out.println("Patient not found.");
+            return;
+        }
+
+        System.out.print("Enter Visit ID to search: ");
+        int visitId = scanner.nextInt();
+
+        Visit found = visitList.searchVisit(visitId);
+        if (found != null) {
+            System.out.println("Visit found: " + found);
+        } else {
+            System.out.println("Visit ID " + visitId + " not found.");
+        }
+    }
+
+    static void removeVisitFromHistory() {
+        System.out.print("Enter Patient ID: ");
+        int id = scanner.nextInt();
+
+        VisitLinkedList visitList = visitHistoryMap.get(id);
+        if (visitList == null) {
+            System.out.println("Patient not found.");
+            return;
+        }
+
+        System.out.print("Enter Visit ID to remove: ");
+        int visitId = scanner.nextInt();
+
+        visitList.removeVisit(visitId);
     }
 }
